@@ -343,9 +343,9 @@ if (cspEnabled) {
   });
 }
 
-const server = app.listen(PORT, () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
   const mode = dev ? 'development' : 'production';
-  console.log(`Listening to port ${PORT} in ${mode} mode`);
+  console.log(`Listening to port ${PORT} on 0.0.0.0 in ${mode} mode`);
   if (dev) {
     console.log(`Open http://localhost:${PORT}/ and start hacking!\n`);
   }
