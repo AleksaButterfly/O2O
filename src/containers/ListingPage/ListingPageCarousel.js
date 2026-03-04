@@ -88,6 +88,7 @@ import ActionBarMaybe from './ActionBarMaybe';
 import SectionReviews from './SectionReviews';
 import SectionAuthorMaybe from './SectionAuthorMaybe';
 import SectionMapMaybe from './SectionMapMaybe';
+import SectionDocumentsMaybe from './SectionDocumentsMaybe';
 import SectionGallery from './SectionGallery';
 import CustomListingFields from './CustomListingFields';
 
@@ -403,6 +404,8 @@ export const ListingPageComponent = props => {
               categoryConfiguration={config.categoryConfiguration}
               intl={intl}
             />
+
+            <SectionDocumentsMaybe publicData={publicData} />
 
             <SectionMapMaybe
               geolocation={geolocation}
