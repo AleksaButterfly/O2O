@@ -120,12 +120,19 @@ export const EditListingDocumentsForm = props => {
       body: formData,
     })
       .then(response => {
-        if (!response.ok) {
-          throw new Error('Upload failed');
-        }
-        return response.json();
+        return response.json().then(json => {
+          if (!response.ok) {
+            // Server returned an error response
+            const errorMessage = json.message || json.statusText || 'Upload failed';
+            const error = new Error(errorMessage);
+            error.data = json.data;
+            throw error;
+          }
+          return json;
+        });
       })
-      .then(data => {
+      .then(response => {
+        const data = response.data;
         // Replace temp document with actual document data
         const updatedDocuments = currentDocuments.map(doc =>
           doc.id === tempId ? { id: data.id, name: file.name, url: data.url } : doc
@@ -139,7 +146,7 @@ export const EditListingDocumentsForm = props => {
         setUploadInProgress(false);
       })
       .catch(error => {
-        console.error('Document upload failed:', error);
+        console.error('Document upload failed:', error.message, error.data);
         // Remove the temp document on error
         formApi.change('documents', currentDocuments.filter(doc => doc.id !== tempId));
         setUploadError(error);
