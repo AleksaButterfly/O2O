@@ -54,6 +54,7 @@ import EditListingWizardTab, {
   DELIVERY,
   LOCATION,
   AVAILABILITY,
+  DOCUMENTS,
   PHOTOS,
   STYLE,
 } from './EditListingWizardTab';
@@ -96,10 +97,10 @@ const tabsForListingType = (processName, listingTypeConfig) => {
   // Note 3: The first tab creates a draft listing and title is mandatory attribute for it.
   //         Details tab asks for "title" and is therefore the first tab in the wizard flow.
   const tabs = {
-    ['default-booking']: [DETAILS, ...locationMaybe, PRICING, AVAILABILITY, ...styleOrPhotosTab],
-    ['default-purchase']: [DETAILS, PRICING_AND_STOCK, ...deliveryMaybe, ...styleOrPhotosTab],
-    ['default-negotiation']: [DETAILS, ...locationMaybe, ...pricingMaybe, ...styleOrPhotosTab],
-    ['default-inquiry']: [DETAILS, ...locationMaybe, ...pricingMaybe, ...styleOrPhotosTab],
+    ['default-booking']: [DETAILS, ...locationMaybe, PRICING, AVAILABILITY, DOCUMENTS, ...styleOrPhotosTab],
+    ['default-purchase']: [DETAILS, PRICING_AND_STOCK, ...deliveryMaybe, DOCUMENTS, ...styleOrPhotosTab],
+    ['default-negotiation']: [DETAILS, ...locationMaybe, ...pricingMaybe, DOCUMENTS, ...styleOrPhotosTab],
+    ['default-inquiry']: [DETAILS, ...locationMaybe, ...pricingMaybe, DOCUMENTS, ...styleOrPhotosTab],
   };
 
   return tabs[processName] || tabs['default-inquiry'];
@@ -140,6 +141,9 @@ const tabLabelAndSubmit = (intl, tab, isNewListingFlow, isPriceDisabled, process
   } else if (tab === AVAILABILITY) {
     labelKey = 'EditListingWizard.tabLabelAvailability';
     submitButtonKey = `EditListingWizard.${processNameString}${newOrEdit}.saveAvailability`;
+  } else if (tab === DOCUMENTS) {
+    labelKey = 'EditListingWizard.tabLabelDocuments';
+    submitButtonKey = `EditListingWizard.${processNameString}${newOrEdit}.saveDocuments`;
   } else if (tab === PHOTOS) {
     labelKey = 'EditListingWizard.tabLabelPhotos';
     submitButtonKey = `EditListingWizard.${processNameString}${newOrEdit}.savePhotos`;
@@ -262,6 +266,9 @@ const tabCompleted = (tab, listing, config) => {
       return !!(geolocation && publicData?.location?.address);
     case AVAILABILITY:
       return !!availabilityPlan;
+    case DOCUMENTS:
+      // Documents are optional, so this tab is always considered complete
+      return true;
     case PHOTOS:
       return images && images.length > 0;
     case STYLE:

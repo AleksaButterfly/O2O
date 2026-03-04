@@ -8,6 +8,7 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const multer = require('multer');
 const { deserialize } = require('./api-util/sdk');
 
 const initiateLoginAs = require('./api/initiate-login-as');
@@ -16,6 +17,15 @@ const transactionLineItems = require('./api/transaction-line-items');
 const initiatePrivileged = require('./api/initiate-privileged');
 const transitionPrivileged = require('./api/transition-privileged');
 const deleteAccount = require('./api/delete-account');
+const uploadDocument = require('./api/upload-document');
+
+// Configure multer for file uploads (store in memory)
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10MB limit
+  },
+});
 
 const createUserWithIdp = require('./api/auth/createUserWithIdp');
 
@@ -56,6 +66,9 @@ router.post('/transaction-line-items', transactionLineItems);
 router.post('/initiate-privileged', initiatePrivileged);
 router.post('/transition-privileged', transitionPrivileged);
 router.post('/delete-account', deleteAccount);
+
+// Document upload endpoint (for listing documents like PDF, DOCX)
+router.post('/upload-document', upload.single('file'), uploadDocument);
 
 // Create user with identity provider (e.g. Facebook or Google)
 // This endpoint is called to create a new user after user has confirmed

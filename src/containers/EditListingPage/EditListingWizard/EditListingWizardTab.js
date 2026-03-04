@@ -13,6 +13,7 @@ import { createResourceLocatorString } from '../../../util/routes';
 import EditListingAvailabilityPanel from './EditListingAvailabilityPanel/EditListingAvailabilityPanel';
 import EditListingDetailsPanel from './EditListingDetailsPanel/EditListingDetailsPanel';
 import EditListingDeliveryPanel from './EditListingDeliveryPanel/EditListingDeliveryPanel';
+import EditListingDocumentsPanel from './EditListingDocumentsPanel/EditListingDocumentsPanel';
 import EditListingLocationPanel from './EditListingLocationPanel/EditListingLocationPanel';
 import EditListingPhotosPanel from './EditListingPhotosPanel/EditListingPhotosPanel';
 import EditListingPricingPanel from './EditListingPricingPanel/EditListingPricingPanel';
@@ -27,6 +28,7 @@ export const PRICING_AND_STOCK = 'pricing-and-stock';
 export const DELIVERY = 'delivery';
 export const LOCATION = 'location';
 export const AVAILABILITY = 'availability';
+export const DOCUMENTS = 'documents';
 export const PHOTOS = 'photos';
 export const STYLE = 'style';
 
@@ -38,6 +40,7 @@ export const SUPPORTED_TABS = [
   DELIVERY,
   LOCATION,
   AVAILABILITY,
+  DOCUMENTS,
   PHOTOS,
   STYLE,
 ];
@@ -255,6 +258,9 @@ const EditListingWizardTab = props => {
           {...panelProps(AVAILABILITY)}
         />
       );
+    }
+    case DOCUMENTS: {
+      return <EditListingDocumentsPanel {...panelProps(DOCUMENTS)} />;
     }
     case PHOTOS: {
       return (
