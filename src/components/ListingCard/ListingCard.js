@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { useConfiguration } from '../../context/configurationContext';
+import appSettings from '../../config/settings';
 
 import { useIntl } from '../../util/reactIntl';
 import { requireListingImage } from '../../util/configHelpers';
@@ -97,7 +98,7 @@ export const ListingCard = props => {
     listing,
     renderSizes,
     setActiveListing,
-    showAuthorInfo = true,
+    showAuthorInfo = !appSettings.hideSellerInfo,
   } = props;
 
   const translations = getListingCardTranslations(listing, config, intl);

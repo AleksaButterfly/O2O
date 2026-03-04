@@ -33,6 +33,10 @@ const appSettings = {
 
   // If webapp is using SSL (i.e. it's behind 'https' protocol)
   usingSSL: process.env.REACT_APP_SHARETRIBE_USING_SSL === 'true',
+
+  // Hide seller/author information from ListingPage, OrderPanel, and ListingCard
+  // Useful for single-seller marketplaces
+  hideSellerInfo: process.env.REACT_APP_HIDE_SELLER_INFO === 'true',
 };
 
 export default appSettings;
