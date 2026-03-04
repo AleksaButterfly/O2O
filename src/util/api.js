@@ -151,3 +151,30 @@ export const createUserWithIdp = body => {
 export const deleteUserAccount = body => {
   return post('/api/delete-account', body);
 };
+
+// Upload a document (PDF/DOCX) to Cloudinary via our API endpoint.
+// This uses FormData instead of Transit serialization.
+export const uploadDocument = file => {
+  const url = `${apiBaseUrl()}/api/upload-document`;
+  const formData = new FormData();
+  formData.append('file', file);
+
+  return window
+    .fetch(url, {
+      method: 'POST',
+      credentials: 'include',
+      body: formData,
+      // Don't set Content-Type header - browser will set it with boundary for FormData
+    })
+    .then(res => {
+      return res.json().then(data => {
+        if (res.status >= 400) {
+          const error = new Error(data.message || data.statusText || 'Upload failed');
+          error.status = res.status;
+          error.data = data.data;
+          throw error;
+        }
+        return data;
+      });
+    });
+};

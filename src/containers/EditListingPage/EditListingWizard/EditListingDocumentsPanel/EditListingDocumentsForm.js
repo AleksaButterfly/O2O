@@ -5,6 +5,7 @@ import { FieldArray } from 'react-final-form-arrays';
 import classNames from 'classnames';
 
 import { FormattedMessage, useIntl } from '../../../../util/reactIntl';
+import { uploadDocument } from '../../../../util/api';
 import { Button, Form } from '../../../../components';
 
 import css from './EditListingDocumentsForm.module.css';
@@ -112,25 +113,7 @@ export const EditListingDocumentsForm = props => {
     formApi.change('documents', [...currentDocuments, tempDocument]);
 
     // Upload to Cloudinary via our API endpoint
-    const formData = new FormData();
-    formData.append('file', file);
-
-    fetch('/api/upload-document', {
-      method: 'POST',
-      body: formData,
-    })
-      .then(response => {
-        return response.json().then(json => {
-          if (!response.ok) {
-            // Server returned an error response
-            const errorMessage = json.message || json.statusText || 'Upload failed';
-            const error = new Error(errorMessage);
-            error.data = json.data;
-            throw error;
-          }
-          return json;
-        });
-      })
+    uploadDocument(file)
       .then(response => {
         const data = response.data;
         // Replace temp document with actual document data
