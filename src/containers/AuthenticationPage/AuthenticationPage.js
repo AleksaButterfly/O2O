@@ -171,7 +171,8 @@ export const AuthenticationForms = props => {
   const config = useConfiguration();
   const intl = useIntl();
   const { userFields, userTypes = [] } = config.user;
-  const preselectedUserType = userTypes.find(conf => conf.userType === userType)?.userType || null;
+  // Always use 'buyer' as the user type - sellers are created manually in Console
+  const preselectedUserType = 'buyer';
 
   const fromMaybe = from ? { from } : null;
   const signupRouteName = !!preselectedUserType ? 'SignupForUserTypePage' : 'SignupPage';
@@ -309,7 +310,8 @@ const ConfirmIdProviderInfoForm = props => {
   } = props;
   const config = useConfiguration();
   const { userFields, userTypes } = config.user;
-  const preselectedUserType = userTypes.find(conf => conf.userType === userType)?.userType || null;
+  // Always use 'buyer' as the user type - sellers are created manually in Console
+  const preselectedUserType = 'buyer';
 
   const idp = authInfo ? authInfo.idpId.replace(/^./, str => str.toUpperCase()) : null;
 
