@@ -171,8 +171,10 @@ export const AuthenticationForms = props => {
   const config = useConfiguration();
   const intl = useIntl();
   const { userFields, userTypes = [] } = config.user;
-  // Always use 'buyer' as the user type - sellers are created manually in Console
-  const preselectedUserType = 'buyer';
+  // Use userType from URL if valid, otherwise default to 'buyer'
+  // This allows /signup/seller as a private link while /signup defaults to buyer
+  const validUserType = userTypes.find(conf => conf.userType === userType)?.userType || null;
+  const preselectedUserType = validUserType || 'buyer';
 
   const fromMaybe = from ? { from } : null;
   const signupRouteName = !!preselectedUserType ? 'SignupForUserTypePage' : 'SignupPage';
@@ -310,8 +312,10 @@ const ConfirmIdProviderInfoForm = props => {
   } = props;
   const config = useConfiguration();
   const { userFields, userTypes } = config.user;
-  // Always use 'buyer' as the user type - sellers are created manually in Console
-  const preselectedUserType = 'buyer';
+  // Use userType from URL if valid, otherwise default to 'buyer'
+  // This allows /signup/seller as a private link while /signup defaults to buyer
+  const validUserType = userTypes.find(conf => conf.userType === userType)?.userType || null;
+  const preselectedUserType = validUserType || 'buyer';
 
   const idp = authInfo ? authInfo.idpId.replace(/^./, str => str.toUpperCase()) : null;
 
