@@ -14,3 +14,7 @@ build
 .env
 npm-debug.log
 yarn-error.log
+
+# Claude Code
+.claude/
+*.local.json
