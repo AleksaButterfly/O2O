@@ -214,18 +214,15 @@ const getCurrentUserTypeConfig = (config, currentUser) => {
  * @returns {Boolean} true if the currentUser's user type, or the anonymous user configuration, is set to see the link
  */
 export const showCreateListingLinkForUser = (config, currentUser) => {
-  const { topbar } = config;
-  const currentUserTypeConfig = getCurrentUserTypeConfig(config, currentUser);
+  // Don't show create listing link to unauthenticated users
+  if (!currentUser) {
+    return false;
+  }
 
+  const currentUserTypeConfig = getCurrentUserTypeConfig(config, currentUser);
   const { accountLinksVisibility } = currentUserTypeConfig || {};
 
-  return currentUser && accountLinksVisibility
-    ? accountLinksVisibility.postListings
-    : currentUser
-    ? true
-    : topbar?.postListingsLink
-    ? topbar.postListingsLink.showToUnauthenticatedUsers
-    : true;
+  return accountLinksVisibility ? accountLinksVisibility.postListings : true;
 };
 
 /**
