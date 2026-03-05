@@ -83,6 +83,22 @@ const CustomFieldMultiEnum = props => {
   ) : null;
 };
 
+// Fields that should render as single-line text input instead of textarea
+const SINGLE_LINE_TEXT_FIELDS = [
+  'first_name',
+  'last_name',
+  'company',
+  'country',
+  'phone_number',
+  'delivery_location',
+];
+
+const shouldUseSingleLineInput = fieldName => {
+  // Check if the field name contains any of the single-line field patterns
+  // This handles both "prot_first_name" and "first_name" formats
+  return SINGLE_LINE_TEXT_FIELDS.some(pattern => fieldName?.toLowerCase().includes(pattern));
+};
+
 const CustomFieldText = props => {
   const { name, fieldConfig, defaultRequiredMessage, formId, intl } = props;
   const { placeholderMessage, isRequired, requiredMessage } = fieldConfig?.saveConfig || {};
@@ -90,15 +106,19 @@ const CustomFieldText = props => {
   const validateMaybe = isRequired
     ? { validate: required(requiredMessage || defaultRequiredMessage) }
     : {};
-  const placeholder =
-    placeholderMessage || intl.formatMessage({ id: 'CustomExtendedDataField.placeholderText' });
+
+  const useSingleLine = shouldUseSingleLineInput(name);
+  const placeholderKey = useSingleLine
+    ? 'CustomExtendedDataField.placeholderTextInput'
+    : 'CustomExtendedDataField.placeholderText';
+  const placeholder = placeholderMessage || intl.formatMessage({ id: placeholderKey });
 
   return (
     <FieldTextInput
       className={css.customField}
       id={formId ? `${formId}.${name}` : name}
       name={name}
-      type="textarea"
+      type={useSingleLine ? 'text' : 'textarea'}
       label={label}
       placeholder={placeholder}
       {...validateMaybe}

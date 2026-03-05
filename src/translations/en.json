@@ -149,6 +149,7 @@
   "CustomExtendedDataField.placeholderLong": "Add number",
   "CustomExtendedDataField.placeholderSingleSelect": "Select…",
   "CustomExtendedDataField.placeholderText": "Write description…",
+  "CustomExtendedDataField.placeholderTextInput": "Enter value…",
   "CustomExtendedDataField.placeholderYoutubeVideoURL": "The URL of a YouTube video",
   "CustomExtendedDataField.required": "Required",
   "DatePicker.clearButton": "Clear",
