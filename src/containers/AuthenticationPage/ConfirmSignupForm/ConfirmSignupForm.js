@@ -55,6 +55,11 @@ const ConfirmSignupFormComponent = props => (
           id: 'ConfirmSignupForm.emailInvalid',
         })
       );
+      const emailCompanyOnly = validators.companyEmailOnly(
+        intl.formatMessage({
+          id: 'ConfirmSignupForm.emailPersonalNotAllowed',
+        })
+      );
 
       // Custom user fields. Since user types are not supported here,
       // only fields with no user type id limitation are selected.
@@ -100,7 +105,7 @@ const ConfirmSignupFormComponent = props => (
                   id: 'ConfirmSignupForm.emailPlaceholder',
                 })}
                 initialValue={email}
-                validate={validators.composeValidators(emailRequired, emailValid)}
+                validate={validators.composeValidators(emailRequired, emailValid, emailCompanyOnly)}
               />
               <div className={css.name}>
                 <FieldTextInput

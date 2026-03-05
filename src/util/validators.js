@@ -134,6 +134,106 @@ export const emailFormatValid = message => value => {
   return value && EMAIL_RE.test(value) ? VALID : message;
 };
 
+// List of personal/free email domains that are not allowed for company signups
+const PERSONAL_EMAIL_DOMAINS = [
+  // Google
+  'gmail.com',
+  'googlemail.com',
+  // Microsoft
+  'hotmail.com',
+  'hotmail.co.uk',
+  'hotmail.fr',
+  'hotmail.de',
+  'hotmail.it',
+  'hotmail.es',
+  'outlook.com',
+  'outlook.co.uk',
+  'live.com',
+  'live.co.uk',
+  'msn.com',
+  // Yahoo
+  'yahoo.com',
+  'yahoo.co.uk',
+  'yahoo.fr',
+  'yahoo.de',
+  'yahoo.it',
+  'yahoo.es',
+  'yahoo.ca',
+  'yahoo.com.au',
+  'ymail.com',
+  'rocketmail.com',
+  // Apple
+  'icloud.com',
+  'me.com',
+  'mac.com',
+  // AOL
+  'aol.com',
+  'aol.co.uk',
+  // ProtonMail
+  'protonmail.com',
+  'protonmail.ch',
+  'proton.me',
+  'pm.me',
+  // Other popular free email providers
+  'mail.com',
+  'email.com',
+  'gmx.com',
+  'gmx.net',
+  'gmx.de',
+  'web.de',
+  'freenet.de',
+  't-online.de',
+  'zoho.com',
+  'zohomail.com',
+  'yandex.com',
+  'yandex.ru',
+  'mail.ru',
+  'inbox.com',
+  'fastmail.com',
+  'fastmail.fm',
+  'tutanota.com',
+  'tutanota.de',
+  'tutamail.com',
+  'tuta.io',
+  // Regional providers
+  'libero.it',
+  'virgilio.it',
+  'alice.it',
+  'tin.it',
+  'laposte.net',
+  'orange.fr',
+  'wanadoo.fr',
+  'free.fr',
+  'sfr.fr',
+  'seznam.cz',
+  'wp.pl',
+  'o2.pl',
+  'interia.pl',
+  'onet.pl',
+  'rediffmail.com',
+  'qq.com',
+  '163.com',
+  '126.com',
+  'sina.com',
+  'naver.com',
+  'hanmail.net',
+  'daum.net',
+];
+
+export const companyEmailOnly = message => value => {
+  if (!value || typeof value !== 'string') {
+    return VALID; // Let required validator handle empty values
+  }
+  const emailLower = value.toLowerCase();
+  const atIndex = emailLower.indexOf('@');
+  if (atIndex === -1) {
+    return VALID; // Let emailFormatValid handle invalid format
+  }
+  const domain = emailLower.slice(atIndex + 1);
+  const isPersonalEmail = PERSONAL_EMAIL_DOMAINS.includes(domain);
+  return isPersonalEmail ? message : VALID;
+};
+
 export const moneySubUnitAmountAtLeast = (message, minValue) => value => {
   return value instanceof Money && value.amount >= minValue ? VALID : message;
 };

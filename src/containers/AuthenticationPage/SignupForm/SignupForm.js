@@ -64,6 +64,11 @@ const SignupFormComponent = props => (
           id: 'SignupForm.emailInvalid',
         })
       );
+      const emailCompanyOnly = validators.companyEmailOnly(
+        intl.formatMessage({
+          id: 'SignupForm.emailPersonalNotAllowed',
+        })
+      );
 
       // password
       const passwordRequiredMessage = intl.formatMessage({
@@ -135,7 +140,7 @@ const SignupFormComponent = props => (
                 placeholder={intl.formatMessage({
                   id: 'SignupForm.emailPlaceholder',
                 })}
-                validate={validators.composeValidators(emailRequired, emailValid)}
+                validate={validators.composeValidators(emailRequired, emailValid, emailCompanyOnly)}
               />
               <div className={css.name}>
                 <FieldTextInput
